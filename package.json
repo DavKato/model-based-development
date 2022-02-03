@@ -25,7 +25,6 @@
   },
   "dependencies": {
     "@playwright/test": "1.17.1",
-    "@xstate/svelte": "^0.2.1",
     "@xstate/test": "^0.5.1",
     "xstate": "4.28.1"
   }

@@ -4,7 +4,6 @@ specifiers:
   '@playwright/test': 1.17.1
   '@sveltejs/vite-plugin-svelte': ^1.0.0-next.30
   '@tsconfig/svelte': ^2.0.1
-  '@xstate/svelte': ^0.2.1
   '@xstate/test': ^0.5.1
   autoprefixer: ^10.4.2
   postcss: ^8.4.5
@@ -20,7 +19,6 @@ specifiers:
 
 dependencies:
   '@playwright/test': 1.17.1
-  '@xstate/svelte': 0.2.1_svelte@3.46.3+xstate@4.28.1
   '@xstate/test': 0.5.1_xstate@4.28.1
   xstate: 4.28.1
 
@@ -750,22 +748,6 @@ packages:
     peerDependencies:
       xstate: ^4.29.0
     dependencies:
-      xstate: 4.28.1
-    dev: false
-
-  /@xstate/svelte/0.2.1_svelte@3.46.3+xstate@4.28.1:
-    resolution: {integrity: sha512-UbuOVGmA3LvSb4TNFpjnTnAn/cuoEXY6SNZExg2Hj23n33ULO7QLdvoLMdGx26pULPW2L4ClMIBQILlq8D3MfA==}
-    peerDependencies:
-      '@xstate/fsm': ^1.6.4
-      svelte: ^3.24.1
-      xstate: ^4.29.0
-    peerDependenciesMeta:
-      '@xstate/fsm':
-        optional: true
-      xstate:
-        optional: true
-    dependencies:
-      svelte: 3.46.3
       xstate: 4.28.1
     dev: false
 

@@ -1,8 +1,6 @@
 <script lang="ts">
-  import { useSelector } from "@xstate/svelte";
   import { babySitter, events as _evts } from "./babySitter";
 
-  const state = useSelector(babySitter, (state) => state);
   const events: any[] = Object.keys(_evts).filter((e) => e !== "３秒経過");
 </script>
 
@@ -19,7 +17,7 @@
       data-test-id="state-display"
       class="font-bold font-mono text-2xl border-4 border-red-600 rounded-md px-3 py-2"
     >
-      {$state.value}
+      {$babySitter.value}
     </p>
     <p>中</p>
   </div>
@@ -27,7 +25,7 @@
   <div class="flex items-baseline gap-4">
     <p>眠気：</p>
     <p class="text-lg px-1 border-b border-indigo-400">
-      {$state.context["眠い"] ? "MAX" : "ナシ"}
+      {$babySitter.context["眠い"] ? "MAX" : "ナシ"}
     </p>
   </div>
 
@@ -36,7 +34,7 @@
       <li>
         <button
           class="rounded-md border-2 border-blue-900 text-blue-900 font-bold px-2 py-1 ring-orange-600"
-          class:ring-2={$state.can(event)}
+          class:ring-2={$babySitter.can(event)}
           on:click={() => babySitter.send(event)}
         >
           {event}
