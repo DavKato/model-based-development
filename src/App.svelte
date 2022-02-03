@@ -13,9 +13,10 @@
     小森ごっこ
   </h1>
 
-  <div id="state-display" class="self-end flex gap-6 items-baseline">
+  <div class="self-end flex gap-6 items-baseline">
     <p>ただいま</p>
     <p
+      data-test-id="state-display"
       class="font-bold font-mono text-2xl border-4 border-red-600 rounded-md px-3 py-2"
     >
       {$state.value}
@@ -30,7 +31,7 @@
     </p>
   </div>
 
-  <ul id="events-container" class="self-start mt-4 flex gap-6">
+  <ul data-test-id="events-container" class="self-start mt-4 flex gap-6">
     {#each events as event, i}
       <li>
         <button

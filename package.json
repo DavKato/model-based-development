@@ -6,7 +6,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "check": "svelte-check --tsconfig ./tsconfig.json"
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "test": "pnpx playwright test --config tests/config.ts"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
@@ -23,7 +24,7 @@
     "vite": "^2.7.2"
   },
   "dependencies": {
-    "@playwright/test": "^1.18.1",
+    "@playwright/test": "1.17.1",
     "@xstate/svelte": "^0.2.1",
     "@xstate/test": "^0.5.1",
     "xstate": "4.28.1"
