@@ -8,7 +8,7 @@
   class="w-screen h-screen grid place-items-center grid-rows-[2fr,1fr,1fr,3fr]"
 >
   <h1 class="self-end text-center font-bold text-3xl tracking-wider">
-    小森ごっこ
+    子守ごっこ
   </h1>
 
   <div class="self-end flex gap-6 items-baseline">
