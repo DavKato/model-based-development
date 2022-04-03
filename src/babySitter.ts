@@ -34,7 +34,7 @@ export const machine = model.createMachine({
       on: {
         handBinky : 'suckingBinky',
         feed : 'drinking',
-putToSleep: [
+        putToSleep: [
           { cond: 'isSleepy', target: 'sleeping' },
         ]
       }
