@@ -1,9 +1,13 @@
 <script lang="ts">
+  import { useSelector } from "@xstate/svelte";
   import { babySitter, events as _evts } from "./babySitter";
 
   const events: any[] = Object.keys(_evts).filter(
     (e) => e !== "threeSecPassed"
   );
+
+  const currentState = useSelector(babySitter, (state) => state.value);
+  const isSleepy = useSelector(babySitter, (state) => state.context.isSleepy);
 </script>
 
 <main
@@ -19,14 +23,14 @@
       data-test-id="state-display"
       class="font-bold font-mono text-2xl border-4 border-red-600 rounded-md px-3 py-2"
     >
-      {$babySitter.value}
+      {$currentState}
     </p>
   </div>
 
   <div class="flex items-baseline gap-4">
     <p>Sleepiness：</p>
     <p class="text-lg px-1 border-b border-indigo-400">
-      {$babySitter.context.isSleepy ? "MAX" : "none"}
+      {$isSleepy ? "MAX" : "none"}
     </p>
   </div>
 

@@ -1,7 +1,11 @@
 <script lang="ts">
-  import { babySitter, events as _evts } from "./babySitter";
+  import { useSelector } from "@xstate/svelte";
+  import { babySitter, events as _evts } from "./babySitter.jp";
 
   const events: any[] = Object.keys(_evts).filter((e) => e !== "３秒経過");
+
+  const currentState = useSelector(babySitter, (state) => state.value);
+  const isSleepy = useSelector(babySitter, (state) => state.context["眠い"]);
 </script>
 
 <main
@@ -17,7 +21,7 @@
       data-test-id="state-display"
       class="font-bold font-mono text-2xl border-4 border-red-600 rounded-md px-3 py-2"
     >
-      {$babySitter.value}
+      {$currentState}
     </p>
     <p>中</p>
   </div>
@@ -25,7 +29,7 @@
   <div class="flex items-baseline gap-4">
     <p>眠気：</p>
     <p class="text-lg px-1 border-b border-indigo-400">
-      {$babySitter.context["眠い"] ? "MAX" : "ナシ"}
+      {$isSleepy ? "MAX" : "ナシ"}
     </p>
   </div>
 
