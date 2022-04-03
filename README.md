@@ -2,9 +2,9 @@
 
 - [Simple model-based-development example using xstate (and svelte, playwright)](#simple-model-based-development-example-using-xstate-and-svelte-playwright)
   - [About](#about)
-  - [Concept of model-based development](#concept-of-model-based-development)
-  - [Running tests](#running-tests)
-  - [Writing tests](#writing-tests)
+  - [What is model-based development?](#what-is-model-based-development)
+  - [How to run tests](#how-to-run-tests)
+  - [Writing your own tests](#writing-your-own-tests)
   - [Extra tip](#extra-tip)
     - [Controlling test generation](#controlling-test-generation)
 
@@ -16,41 +16,39 @@ This example was originally written for a lightning talk in Japanese Svelte meet
 I noticed a few comments on the video asking for an English translation.
 Instead of recording/writing a translation for the video, I decided to
 
-1. Update the code to English
-2. Explain my idea about model-based development in this doc.
+1. Translate the code into English
+2. Explain my understanding of model-based development here in this readme.
 
-## Concept of model-based development
+## What is model-based development?
 
-The idea is not about actual code implementation.
-You may or may not use xstate in your production code, it doesn't matter.
-It is about having a same idea across a organization on how their service should behave.
+Model-based development is less about actual implementation details and more about having a shared idea across an organization on how their service should behave.
 
 The goal is to have a documentation that
 
 1. Both tech and non-tech people can understand
 2. Doesn't rot
 
-To achieve 1, we use state chart to represent the specification. This is what reffered as a **model**.
+To achieve ①, we use a state chart to represent the specifications. This is what I refer to as a **model**.
 
 ![model](assets/baby-sitter-model.png)
 
-Document/code rotting happens when that piece of data is not maintained, which often happens when it is outside of regular work flow.
+Document/code rotting happens when the model is not maintained, which often happens when it is outside of the regular work flow.
 
-To achieve 2, the model is used to create e2e tests for the application (model-based testing).
+To achieve ②, the model is used to create end-to-end tests for the application (model-based testing).
 
-Say a team wants to implement a new feature, here is an example flow:
+Say a team wants to implement a new feature. They could approach it with the following procedure:
 
-1. Product manager and UX designer puts the specification into a model. (Most likely using a no-code tool like [xstate visual editor](https://stately.ai/registry/new)). This model is passed to the lead engineer and will be [imported to the code base](test/suites/babySitter/model.ts).
-2. Lead engineer adopts a e2e test using the model by creating [checks](test/suites/babySitter/checks.ts) for each state that need to be tested, connecting actual [events](test/suites/babySitter/events.ts) with events defined in the model, and finally [generating test cases](test/suites/babySitter/index.spec.ts) by putting all together.
-3. Engineer team starts implementing the feature. They may or may not use `xstate`, they may use TDD aproach. What ever they do, the branch should only be merged when generated model-based tests have passed.
+1. Product manager and UX designer translate the specification into a model. (Most likely using a no-code tool like [xstate visual editor](https://stately.ai/registry/new)). This model is passed to the lead engineer and will be [imported into the code base](test/suites/babySitter/model.ts).
+2. The lead engineer creates e2e tests based on the model by creating [checks](test/suites/babySitter/checks.ts) for each state that needs to be tested. They then connect actual [events](test/suites/babySitter/events.ts) with the events defined in the model, and finally put it all together by [generating test cases](test/suites/babySitter/index.spec.ts).
+3. The engineering team starts implementing the feature. They may or may not use `xstate` or a test-driven approach. What ever they do, the branch should only be merged when generated model-based tests have passed.
 
-## Running tests
+## How to run tests
 
-Run `pnpm test`.
+To run tests, simply execute `pnpm test`.
 
-_If Playwright claims about missing dependencies like chrome or whatever, run `pnpm setup:test` and then try again._
+_If Playwright complains about missing dependencies like chrome or whatever, run `pnpm setup:test` and then try again._
 
-## Writing tests
+## Writing your own tests
 
 In this code base I created `ModelBasedTest` class to  make it easy to generate tests. Simply press `ctrl space`  and follow the method listed by Typescript.
 
@@ -71,7 +69,7 @@ test.describe('hey!', () => {
 
 ### Controlling test generation
 
-When generating tests with `shortestPath` or `simplePath`, you can still control the generation inderectly by controlling `machine.context`. This is the case, since `unique state` that `@xstate/test` sees is actually a combination of `state` and `context`.
+When generating tests with `shortestPath` or `simplePath`, you can still control the generation indirectly by controlling `machine.context`. This is because the `unique state` as seen by `@xstate/test` is actually a combination of `state` and `context`.
 
 ```ts
 const config = {
@@ -102,4 +100,4 @@ const config = {
 }
 ```
 
-In the case of `babySitter`, if you remove the context `isSleepy` from the `model` and it's `implementations`, a lesser tests will be generated.
+In the case of `babySitter`, if you remove the context `isSleepy` from the `model` and it's `implementations`, the number of generated tests will decrease.
