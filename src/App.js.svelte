@@ -1,37 +1,36 @@
 <script lang="ts">
   import { babySitter, events as _evts } from "./babySitter";
 
-  const events: any[] = Object.keys(_evts).filter(
-    (e) => e !== "threeSecPassed"
-  );
+  const events: any[] = Object.keys(_evts).filter((e) => e !== "３秒経過");
 </script>
 
 <main
   class="w-screen h-screen grid place-items-center grid-rows-[2fr,1fr,1fr,3fr]"
 >
   <h1 class="self-end text-center font-bold text-3xl tracking-wider">
-    Baby Sitter
+    子守ごっこ
   </h1>
 
   <div class="self-end flex gap-6 items-baseline">
-    <p>Currently</p>
+    <p>ただいま</p>
     <p
       data-test-id="state-display"
       class="font-bold font-mono text-2xl border-4 border-red-600 rounded-md px-3 py-2"
     >
       {$babySitter.value}
     </p>
+    <p>中</p>
   </div>
 
   <div class="flex items-baseline gap-4">
-    <p>Sleepiness：</p>
+    <p>眠気：</p>
     <p class="text-lg px-1 border-b border-indigo-400">
-      {$babySitter.context.isSleepy ? "MAX" : "none"}
+      {$babySitter.context["眠い"] ? "MAX" : "ナシ"}
     </p>
   </div>
 
   <ul data-test-id="events-container" class="self-start mt-4 flex gap-6">
-    {#each events as event}
+    {#each events as event, i}
       <li>
         <button
           class="rounded-md border-2 border-blue-900 text-blue-900 font-bold px-2 py-1 ring-orange-600"

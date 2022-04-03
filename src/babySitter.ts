@@ -2,12 +2,12 @@ import { interpret } from 'xstate';
 import { createModel } from 'xstate/lib/model';
 
 export const events = {
-    'おしゃぶりあげる': () => ({}),
-    'とりあげる': () => ({}),
-    'おちちあげる': () => ({}),
-    '３秒経過': () => ({}),
-    'ねかしつける': () => ({}),
-    '大いなる目覚め': () => ({})
+    handBinky: () => ({}),
+    takeItAway: () => ({}),
+    feed: () => ({}),
+    threeSecPassed: () => ({}),
+    putToSleep: () => ({}),
+    awaken: () => ({})
   }
 
 const initAudio = (src: string) => {
@@ -18,76 +18,76 @@ const initAudio = (src: string) => {
 }
 
 const model = createModel({
-  '眠い': false
+  isSleepy: false
 }, {
   events 
 })
 
 export const machine = model.createMachine({
-  id: '泣き虫赤ちゃん',
-  initial: 'おしゃぶり',
+  id: 'cryBaby',
+  initial: 'suckingBinky',
   states: {
-    'ガン泣き': {
+    crying : {
       invoke: {
-        src: '泣き声'
+        src: 'cryingSound'
       },
       on: {
-        'おしゃぶりあげる': 'おしゃぶり',
-        'おちちあげる': 'おちち',
-        'ねかしつける': [
-          { cond: '眠気あり', target: 'おねんね' },
+        handBinky : 'suckingBinky',
+        feed : 'drinking',
+putToSleep: [
+          { cond: 'isSleepy', target: 'sleeping' },
         ]
       }
     },
-    'おしゃぶり': {
+    suckingBinky: {
       on: {
-        'とりあげる': 'ガン泣き',
+        takeItAway: 'crying',
       }
     },
-    'おちち': {
-      invoke: { src: '眠気カウンター' },
+    drinking: {
+      invoke: { src: 'sleepinessCounter' },
       on: {
-        'とりあげる': 'ガン泣き',
-        '３秒経過': [
-          { cond: '眠気あり', target: 'おねんね' },
-          { actions: '眠気アップ' },
+        takeItAway: 'crying',
+        threeSecPassed: [
+          { cond: 'isSleepy', target: 'sleeping' },
+          { actions: 'becomingSleepy..' },
         ]
       }
     },
-    'おねんね': {
+    sleeping: {
       invoke: {
-        src: 'いびき'
+        src: 'snoringSound'
       },
       on: {
-        '大いなる目覚め': 'ガン泣き'
+        awaken: 'crying'
       }
     }
   }
 }, {
   services: {
-    '眠気カウンター': () => (sendback) => {
+    sleepinessCounter: () => (sendback) => {
       const interval = window.setInterval(() => {
-        sendback('３秒経過')
+        sendback('threeSecPassed')
       }, 3000);
       
       return () => window.clearInterval(interval)
     },
-    '泣き声': () => () => {
+    cryingSound: () => () => {
       const audio = initAudio('/baby-crying.mp3');
       audio.play();
       return () => audio.pause()
     },
-    'いびき': () => () => {
+    snoringSound: () => () => {
       const audio = initAudio('/snoring.mp3');
       audio.play();
       return () => audio.pause()
     }
   },
   actions: {
-    '眠気アップ': model.assign({ '眠い': true })
+    'becomingSleepy..': model.assign({ isSleepy: true })
   },
   guards: {
-    '眠気あり': (context) => context['眠い']
+    isSleepy: ({ isSleepy }) => isSleepy
   }
 })
 
